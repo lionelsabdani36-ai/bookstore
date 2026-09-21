@@ -1,0 +1,15 @@
+import "../rolldown-runtime.mjs";
+import { require_picomatch } from "./picomatch.mjs";
+import "./@jridgewell/remapping.mjs";
+import { createRequire } from "node:module";
+import "node:fs";
+import "node:process";
+import { resolve } from "node:path";
+import "node:buffer";
+require_picomatch();
+createRequire(import.meta.url);
+resolve(import.meta.dirname, "rspack/loaders/transform.mjs");
+resolve(import.meta.dirname, "rspack/loaders/load.mjs");
+resolve(import.meta.dirname, "webpack/loaders/transform.mjs");
+resolve(import.meta.dirname, "webpack/loaders/load.mjs");
+export {};

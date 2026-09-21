@@ -1,0 +1,22 @@
+import { createError } from "#app/composables/error";
+import { defineNuxtRouteMiddleware } from "#app/composables/router";
+export default defineNuxtRouteMiddleware(async (to) => {
+  if (!to.meta?.validate) {
+    return;
+  }
+  const result = await Promise.resolve(to.meta.validate(to));
+  if (result === true) {
+    return;
+  }
+  const error = createError({
+    fatal: import.meta.client,
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
+    status: result && (result.status || result.statusCode) || 404,
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
+    statusText: result && (result.statusText || result.statusMessage) || `Page Not Found: ${to.fullPath}`,
+    data: {
+      path: to.fullPath
+    }
+  });
+  return error;
+});
