@@ -27,11 +27,15 @@
 </template>
 
 <script setup>
+import { useAuthStore } from '~/stores/auth'
+
 const props = defineProps({
   role: { type: String, default: 'user' }
 });
 
-const logout = () => {
-  // TODO: implement logout
+const authStore = useAuthStore()
+
+const logout = async () => {
+  await authStore.logout()
 };
 </script>

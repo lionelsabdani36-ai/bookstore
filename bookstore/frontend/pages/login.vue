@@ -47,6 +47,8 @@
 import { ref } from 'vue'
 import { useAuthStore } from '~/stores/auth'
 
+definePageMeta({ middleware: ['guest'] })
+
 const authStore = useAuthStore()
 
 const email = ref('')
@@ -58,7 +60,13 @@ const handleLogin = async () => {
       email: email.value,
       password: password.value,
     })
-    navigateTo('/')
+
+    // Redirect based on user role
+    if (authStore.user?.role === 'admin') {
+      navigateTo('/admin')
+    } else {
+      navigateTo('/user')
+    }
   } catch (err) {
     // Error is already set in the store and displayed in the template
   }

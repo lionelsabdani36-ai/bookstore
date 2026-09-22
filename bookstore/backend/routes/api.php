@@ -9,6 +9,9 @@ Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('me', [AuthController::class, 'me']);
+
         // User Routes
         Route::get('profile', [User\ProfileController::class, 'index']);
         Route::get('books', [User\BookController::class, 'index']);

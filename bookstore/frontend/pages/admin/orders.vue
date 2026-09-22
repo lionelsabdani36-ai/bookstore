@@ -12,7 +12,7 @@
 <script setup>
 import { useOrdersStore } from '~/stores/orders'
 
-definePageMeta({ layout: 'admin' })
+definePageMeta({ layout: 'admin', middleware: ['admin'] })
 const ordersStore = useOrdersStore()
 const columns = [
   { key: 'id', label: 'Order ID' },

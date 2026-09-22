@@ -11,7 +11,9 @@
             </svg>
             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">3</span>
           </NuxtLink>
-          <div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold">U</div>
+          <div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold">
+            {{ (authStore.user?.name || 'U').charAt(0).toUpperCase() }}
+          </div>
         </div>
       </header>
       <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
@@ -20,3 +22,10 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+</script>
+

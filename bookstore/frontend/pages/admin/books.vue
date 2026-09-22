@@ -16,7 +16,7 @@
 <script setup>
 import { useBooksStore } from '~/stores/books'
 
-definePageMeta({ layout: 'admin' })
+definePageMeta({ layout: 'admin', middleware: ['admin'] })
 
 const booksStore = useBooksStore()
 const columns = [

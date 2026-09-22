@@ -36,7 +36,7 @@ import { ref } from 'vue'
 import { useOrdersStore } from '~/stores/orders'
 import InvoiceView from '~/components/InvoiceView.vue'
 
-definePageMeta({ layout: 'user' })
+definePageMeta({ layout: 'user', middleware: ['auth'] })
 
 const ordersStore = useOrdersStore()
 const selectedOrder = ref(null)

@@ -36,6 +36,6 @@
 <script setup>
 import { useCartStore } from '~/stores/cart'
 
-definePageMeta({ layout: 'user' })
+definePageMeta({ layout: 'user', middleware: ['auth'] })
 const cartStore = useCartStore()
 </script>

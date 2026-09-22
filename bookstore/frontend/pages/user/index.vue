@@ -16,7 +16,7 @@
 import { useBooksStore } from '~/stores/books'
 import { useCartStore } from '~/stores/cart'
 
-definePageMeta({ layout: 'user' })
+definePageMeta({ layout: 'user', middleware: ['auth'] })
 
 const booksStore = useBooksStore()
 const cartStore = useCartStore()

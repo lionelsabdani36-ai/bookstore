@@ -10,6 +10,6 @@
 <script setup>
 import { useChatStore } from '~/stores/chat'
 
-definePageMeta({ layout: 'user' })
+definePageMeta({ layout: 'user', middleware: ['auth'] })
 const chatStore = useChatStore()
 </script>
