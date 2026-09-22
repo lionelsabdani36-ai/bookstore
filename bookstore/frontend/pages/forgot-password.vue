@@ -234,7 +234,7 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted } from 'vue'
+import { ref, onUnmounted, nextTick } from 'vue'
 
 definePageMeta({ middleware: ['guest'] })
 

@@ -31,17 +31,21 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
+            'remember' => 'boolean'
         ]);
         $user = User::where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages(['email' => ['Invalid credentials']]);
         }
+        
+        $expiresAt = $request->remember ? now()->addDays(30) : null;
+        
         return response()->json([
             'status' => 'success',
             'data' => [
                 'user' => $user,
-                'token' => $user->createToken('auth_token')->plainTextToken
+                'token' => $user->createToken('auth_token', ['*'], $expiresAt)->plainTextToken
             ]
         ]);
     }

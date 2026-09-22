@@ -36,7 +36,7 @@ return [
     ],
 
     'fonnte' => [
-        'token' => env('wpyEa9pbhnPz2M54Tdfn'),
+        'token' => env('FONNTE_API_TOKEN', 'wpyEa9pbhnPz2M54Tdfn'),
     ],
 
 ];
