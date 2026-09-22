@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'fonnte' => [
+        'token' => env('wpyEa9pbhnPz2M54Tdfn'),
+    ],
+
 ];

@@ -1,12 +1,18 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\PasswordResetController;
 use App\Http\Controllers\Api\V1\Admin;
 use App\Http\Controllers\Api\V1\User;
 
 Route::prefix('v1')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
+
+    // Password Reset (public routes)
+    Route::post('password/send-otp', [PasswordResetController::class, 'sendOtp']);
+    Route::post('password/verify-otp', [PasswordResetController::class, 'verifyOtp']);
+    Route::post('password/reset', [PasswordResetController::class, 'resetPassword']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
