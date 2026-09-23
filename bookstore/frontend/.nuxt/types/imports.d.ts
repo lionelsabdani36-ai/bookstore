@@ -103,6 +103,7 @@ declare global {
   const useAuthStore: typeof import('../../stores/auth').useAuthStore
   const useBooksStore: typeof import('../../stores/books').useBooksStore
   const useCartStore: typeof import('../../stores/cart').useCartStore
+  const useCategoryStore: typeof import('../../stores/category').useCategoryStore
   const useChatStore: typeof import('../../stores/chat').useChatStore
   const useCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie').useCookie
   const useCssModule: typeof import('vue').useCssModule
@@ -187,6 +188,7 @@ declare global {
   const useState: typeof import('../../node_modules/nuxt/dist/app/composables/state').useState
   const useTemplateRef: typeof import('vue').useTemplateRef
   const useTransitionState: typeof import('vue').useTransitionState
+  const useUsersStore: typeof import('../../stores/users').useUsersStore
   const watch: typeof import('vue').watch
   const watchEffect: typeof import('vue').watchEffect
   const watchPostEffect: typeof import('vue').watchPostEffect
@@ -310,6 +312,7 @@ declare module 'vue' {
     readonly useAuthStore: UnwrapRef<typeof import('../../stores/auth')['useAuthStore']>
     readonly useBooksStore: UnwrapRef<typeof import('../../stores/books')['useBooksStore']>
     readonly useCartStore: UnwrapRef<typeof import('../../stores/cart')['useCartStore']>
+    readonly useCategoryStore: UnwrapRef<typeof import('../../stores/category')['useCategoryStore']>
     readonly useChatStore: UnwrapRef<typeof import('../../stores/chat')['useChatStore']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
@@ -394,6 +397,7 @@ declare module 'vue' {
     readonly useState: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/state')['useState']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>
+    readonly useUsersStore: UnwrapRef<typeof import('../../stores/users')['useUsersStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

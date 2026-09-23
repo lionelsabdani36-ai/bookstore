@@ -6,7 +6,16 @@
         <h1 class="text-xl font-semibold text-gray-800">Admin Portal</h1>
         <div class="flex items-center gap-4">
           <span class="text-sm text-gray-600">{{ authStore.user?.name || 'Admin' }}</span>
-          <div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold">
+          <img 
+            v-if="authStore.user?.photo" 
+            :src="`http://localhost:8000/storage/${authStore.user.photo}`" 
+            class="w-8 h-8 rounded-full object-cover border border-gray-200"
+            alt="Profile Photo"
+          />
+          <div 
+            v-else 
+            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold"
+          >
             {{ (authStore.user?.name || 'A').charAt(0).toUpperCase() }}
           </div>
         </div>

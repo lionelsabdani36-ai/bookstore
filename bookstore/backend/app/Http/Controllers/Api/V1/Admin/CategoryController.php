@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index() { return response()->json(['status' => 'success', 'data' => Category::all()]); }
+    public function index() { return response()->json(['status' => 'success', 'data' => Category::withSum('books', 'stock')->get()]); }
     public function store(Request $request) {
         $validated = $request->validate(['name' => 'required|string|unique:categories']);
-        return response()->json(['status' => 'success', 'data' => Category::create($validated)]);
+        $category = Category::create($validated);
+        $category->loadSum('books', 'stock');
+        return response()->json(['status' => 'success', 'data' => $category]);
     }
-    public function show(Category $category) { return response()->json(['status' => 'success', 'data' => $category]); }
+    public function show(Category $category) { return response()->json(['status' => 'success', 'data' => $category->loadSum('books', 'stock')]); }
     public function update(Request $request, Category $category) {
         $validated = $request->validate(['name' => 'required|string|unique:categories,name,' . $category->id]);
         $category->update($validated);
+        $category->loadSum('books', 'stock');
         return response()->json(['status' => 'success', 'data' => $category]);
     }
     public function destroy(Category $category) {

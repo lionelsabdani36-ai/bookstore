@@ -22,7 +22,9 @@ class BookController extends Controller
         if ($request->hasFile('cover_image')) {
             $validated['cover_image'] = $request->file('cover_image')->store('books', 'public');
         }
-        return response()->json(['status' => 'success', 'data' => Book::create($validated)]);
+        $book = Book::create($validated);
+        $book->load('category');
+        return response()->json(['status' => 'success', 'data' => $book]);
     }
     public function show(Book $book) { return response()->json(['status' => 'success', 'data' => $book->load('category')]); }
     public function update(Request $request, Book $book) {
@@ -41,6 +43,7 @@ class BookController extends Controller
             $validated['cover_image'] = $request->file('cover_image')->store('books', 'public');
         }
         $book->update($validated);
+        $book->load('category');
         return response()->json(['status' => 'success', 'data' => $book]);
     }
     public function destroy(Book $book) {

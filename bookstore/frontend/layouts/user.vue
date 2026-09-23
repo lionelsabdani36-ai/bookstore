@@ -11,7 +11,16 @@
             </svg>
             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">3</span>
           </NuxtLink>
-          <div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold">
+          <img 
+            v-if="authStore.user?.photo" 
+            :src="`http://localhost:8000/storage/${authStore.user.photo}`" 
+            class="w-8 h-8 rounded-full object-cover border border-gray-200"
+            alt="Profile Photo"
+          />
+          <div 
+            v-else
+            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold"
+          >
             {{ (authStore.user?.name || 'U').charAt(0).toUpperCase() }}
           </div>
         </div>

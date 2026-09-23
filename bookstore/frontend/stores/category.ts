@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { useAuthStore } from './auth'
 import { useRuntimeConfig } from '#app'
 
-export const useBooksStore = defineStore('books', () => {
-  const books = ref<any[]>([])
+export const useCategoryStore = defineStore('category', () => {
+  const categories = ref<any[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
 
@@ -12,41 +12,41 @@ export const useBooksStore = defineStore('books', () => {
   const config = useRuntimeConfig()
   const apiBase = process.server ? 'http://127.0.0.1:8000/api/v1' : config.public.apiBase
 
-  const fetchBooks = async () => {
+  const fetchCategories = async () => {
     loading.value = true
     error.value = null
     try {
-      const response = await $fetch<any>(`${apiBase}/admin/books`, {
+      const response = await $fetch<any>(`${apiBase}/admin/categories`, {
         headers: {
           Authorization: `Bearer ${authStore.token}`,
           Accept: 'application/json'
         }
       })
-      books.value = response.data
+      categories.value = response.data
     } catch (err: any) {
-      error.value = err?.data?.message || 'Failed to fetch books'
+      error.value = err?.data?.message || 'Failed to fetch categories'
       console.error(err)
     } finally {
       loading.value = false
     }
   }
 
-  const createBook = async (formData: FormData) => {
+  const createCategory = async (name: string) => {
     loading.value = true
     error.value = null
     try {
-      const response = await $fetch<any>(`${apiBase}/admin/books`, {
+      const response = await $fetch<any>(`${apiBase}/admin/categories`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${authStore.token}`,
           Accept: 'application/json'
         },
-        body: formData
+        body: { name }
       })
-      books.value.push(response.data)
+      categories.value.push(response.data)
       return response.data
     } catch (err: any) {
-      error.value = err?.data?.message || 'Failed to create book'
+      error.value = err?.data?.message || 'Failed to create category'
       console.error(err)
       throw err
     } finally {
@@ -54,26 +54,25 @@ export const useBooksStore = defineStore('books', () => {
     }
   }
 
-  const updateBook = async (id: number, formData: FormData) => {
+  const updateCategory = async (id: number, name: string) => {
     loading.value = true
     error.value = null
     try {
-      formData.append('_method', 'PUT')
-      const response = await $fetch<any>(`${apiBase}/admin/books/${id}`, {
-        method: 'POST',
+      const response = await $fetch<any>(`${apiBase}/admin/categories/${id}`, {
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${authStore.token}`,
           Accept: 'application/json'
         },
-        body: formData
+        body: { name }
       })
-      const index = books.value.findIndex(b => b.id === id)
+      const index = categories.value.findIndex(c => c.id === id)
       if (index !== -1) {
-        books.value[index] = response.data
+        categories.value[index] = response.data
       }
       return response.data
     } catch (err: any) {
-      error.value = err?.data?.message || 'Failed to update book'
+      error.value = err?.data?.message || 'Failed to update category'
       console.error(err)
       throw err
     } finally {
@@ -81,20 +80,20 @@ export const useBooksStore = defineStore('books', () => {
     }
   }
 
-  const deleteBook = async (id: number) => {
+  const deleteCategory = async (id: number) => {
     loading.value = true
     error.value = null
     try {
-      await $fetch(`${apiBase}/admin/books/${id}`, {
+      await $fetch(`${apiBase}/admin/categories/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${authStore.token}`,
           Accept: 'application/json'
         }
       })
-      books.value = books.value.filter(b => b.id !== id)
+      categories.value = categories.value.filter(c => c.id !== id)
     } catch (err: any) {
-      error.value = err?.data?.message || 'Failed to delete book'
+      error.value = err?.data?.message || 'Failed to delete category'
       console.error(err)
       throw err
     } finally {
@@ -102,5 +101,5 @@ export const useBooksStore = defineStore('books', () => {
     }
   }
 
-  return { books, loading, error, fetchBooks, createBook, updateBook, deleteBook }
+  return { categories, loading, error, fetchCategories, createCategory, updateCategory, deleteCategory }
 })
