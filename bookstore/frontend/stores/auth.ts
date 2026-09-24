@@ -32,13 +32,19 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = newToken
       user.value = newUser
 
-      // Cookie options: 30 days if remember me is checked, otherwise session (no maxAge)
-      const maxAge = credentials.remember ? 60 * 60 * 24 * 30 : undefined
-      const tCookie = useCookie('auth_token', { maxAge, path: '/' })
-      const uCookie = useCookie('auth_user', { maxAge, path: '/' })
-      
-      tCookie.value = newToken
-      uCookie.value = newUser
+      // Only set cookies if remember me is checked
+      if (credentials.remember) {
+        const maxAge = 60 * 60 * 24 * 30
+        const tCookie = useCookie('auth_token', { maxAge, path: '/' })
+        const uCookie = useCookie('auth_user', { maxAge, path: '/' })
+        tCookie.value = newToken
+        uCookie.value = newUser
+      } else {
+        const tCookie = useCookie('auth_token', { path: '/' })
+        const uCookie = useCookie('auth_user', { path: '/' })
+        tCookie.value = null
+        uCookie.value = null
+      }
 
     } catch (err: any) {
       const message = err?.data?.message || err?.data?.errors?.email?.[0] || 'Login failed'
@@ -60,8 +66,10 @@ export const useAuthStore = defineStore('auth', () => {
       })
       user.value = response.data.user
       
-      const uCookie = useCookie('auth_user', { path: '/' })
-      uCookie.value = response.data.user
+      if (useCookie('auth_token').value) {
+        const uCookie = useCookie('auth_user', { path: '/' })
+        uCookie.value = response.data.user
+      }
       
       return response.data.user
     } catch (error) {

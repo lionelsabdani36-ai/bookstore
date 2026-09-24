@@ -118,5 +118,11 @@ onMounted(async () => {
   await chatStore.fetchMessages()
   await nextTick()
   scrollToBottom()
+  chatStore.startPolling()
+})
+
+import { onUnmounted } from 'vue'
+onUnmounted(() => {
+  chatStore.stopPolling()
 })
 </script>

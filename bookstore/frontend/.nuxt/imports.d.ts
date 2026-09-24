@@ -36,6 +36,7 @@ export { useCartStore } from '../stores/cart';
 export { useCategoryStore } from '../stores/category';
 export { useChatStore } from '../stores/chat';
 export { useOrdersStore } from '../stores/orders';
+export { usePosStore } from '../stores/pos';
 export { useUsersStore } from '../stores/users';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';

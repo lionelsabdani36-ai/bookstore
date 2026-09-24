@@ -5,7 +5,15 @@
     </div>
     <nav class="flex-1 px-4 space-y-2">
       <template v-if="role === 'admin'">
-        <NuxtLink to="/admin" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">Dashboard</NuxtLink>
+        <NuxtLink to="/admin" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700 flex items-center gap-2">
+          Dashboard
+        </NuxtLink>
+        <NuxtLink to="/admin/pos" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4M4 4h16v16H4z"></path>
+          </svg>
+          POS Cashier
+        </NuxtLink>
         <NuxtLink to="/admin/books" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">Books</NuxtLink>
         <NuxtLink to="/admin/categories" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">Categories</NuxtLink>
         <NuxtLink to="/admin/users" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">Users</NuxtLink>

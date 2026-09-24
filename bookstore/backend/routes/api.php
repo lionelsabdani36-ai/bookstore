@@ -35,6 +35,10 @@ Route::prefix('v1')->group(function () {
             Route::get('reports', [Admin\ReportController::class, 'index']);
             Route::get('chat', [Admin\ChatController::class, 'index']);
             Route::post('chat', [Admin\ChatController::class, 'store']);
+
+            // POS
+            Route::post('pos/scan', [Admin\PosController::class, 'scanBarcode']);
+            Route::post('pos/checkout', [Admin\PosController::class, 'store']);
         });
     });
 });
