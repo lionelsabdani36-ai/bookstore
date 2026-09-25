@@ -36,6 +36,9 @@ Route::prefix('v1')->group(function () {
             Route::get('chat', [Admin\ChatController::class, 'index']);
             Route::post('chat', [Admin\ChatController::class, 'store']);
 
+            // Dashboard
+            Route::get('dashboard', [Admin\DashboardController::class, 'index']);
+
             // POS
             Route::post('pos/scan', [Admin\PosController::class, 'scanBarcode']);
             Route::post('pos/checkout', [Admin\PosController::class, 'store']);
