@@ -17,9 +17,12 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);
+        Route::post('verify', [AuthController::class, 'verify']);
+        Route::post('send-otp', [AuthController::class, 'sendOtp']);
 
         // User Routes
         Route::get('profile', [User\ProfileController::class, 'index']);
+        Route::post('profile', [User\ProfileController::class, 'update']);
         Route::get('books', [User\BookController::class, 'index']);
         Route::get('orders', [User\OrderController::class, 'index']);
         Route::post('orders', [User\OrderController::class, 'store']);

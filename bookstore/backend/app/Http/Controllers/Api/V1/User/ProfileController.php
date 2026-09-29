@@ -15,4 +15,28 @@ class ProfileController extends Controller
             ]
         ]);
     }
+
+    public function update(Request $request) {
+        $user = $request->user();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'whatsapp_number' => 'nullable|string|max:20',
+            'photo' => 'nullable|image',
+            'password' => 'nullable|string|min:6',
+        ]);
+        
+        if ($request->hasFile('photo')) {
+            $validated['photo'] = $request->file('photo')->store('users', 'public');
+        }
+
+        if (empty($validated['password'])) {
+            unset($validated['password']);
+        } else {
+            $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
+        }
+
+        $user->update($validated);
+        return response()->json(['status' => 'success', 'data' => ['user' => $user]]);
+    }
 }

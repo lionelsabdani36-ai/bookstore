@@ -37,8 +37,8 @@
         <tr v-for="item in order.items" :key="item.id" class="border-b border-gray-100">
           <td class="py-3 text-sm text-gray-800">{{ item.name }}</td>
           <td class="py-3 text-sm text-gray-800 text-center">{{ item.quantity }}</td>
-          <td class="py-3 text-sm text-gray-800 text-right">${{ item.price }}</td>
-          <td class="py-3 text-sm text-gray-800 text-right">${{ item.quantity * item.price }}</td>
+          <td class="py-3 text-sm text-gray-800 text-right">{{ formatCurrency(item.price) }}</td>
+          <td class="py-3 text-sm text-gray-800 text-right">{{ formatCurrency(item.quantity * item.price) }}</td>
         </tr>
       </tbody>
     </table>
@@ -47,15 +47,15 @@
       <div class="w-64">
         <div class="flex justify-between py-2 text-sm text-gray-600">
           <span>Subtotal</span>
-          <span>${{ order.total }}</span>
+          <span>{{ formatCurrency(order.total) }}</span>
         </div>
         <div class="flex justify-between py-2 text-sm text-gray-600">
           <span>Tax (0%)</span>
-          <span>$0.00</span>
+          <span>{{ formatCurrency(0) }}</span>
         </div>
         <div class="flex justify-between py-3 text-lg font-bold text-gray-800 border-t border-gray-200 mt-2">
           <span>Total</span>
-          <span class="text-primary-600">${{ order.total }}</span>
+          <span class="text-primary-600">{{ formatCurrency(order.total) }}</span>
         </div>
       </div>
     </div>
@@ -69,6 +69,14 @@ defineProps({
     required: true
   }
 });
+
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+  }).format(value || 0);
+};
 </script>
 
 <style scoped>

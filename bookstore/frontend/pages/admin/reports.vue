@@ -170,10 +170,11 @@ const totalRevenue = computed(() => {
 });
 
 function formatCurrency(value) {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('id-ID', {
     style: 'currency',
-    currency: 'USD',
-  }).format(value);
+    currency: 'IDR',
+    minimumFractionDigits: 0
+  }).format(value || 0);
 }
 
 function formatDate(dateString) {

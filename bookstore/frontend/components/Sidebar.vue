@@ -24,7 +24,7 @@
       <template v-else>
         <NuxtLink to="/user" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">Catalog</NuxtLink>
         <NuxtLink to="/user/cart" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">Cart</NuxtLink>
-        <NuxtLink to="/user/history" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">History</NuxtLink>
+        <NuxtLink to="/user/transactions" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">Transactions</NuxtLink>
         <NuxtLink to="/user/chat" class="block px-4 py-2 rounded hover:bg-primary-100 hover:text-primary-700">Chat</NuxtLink>
       </template>
     </nav>

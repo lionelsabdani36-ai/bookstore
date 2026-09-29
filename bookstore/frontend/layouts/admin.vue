@@ -6,18 +6,20 @@
         <h1 class="text-xl font-semibold text-gray-800">Admin Portal</h1>
         <div class="flex items-center gap-4">
           <span class="text-sm text-gray-600">{{ authStore.user?.name || 'Admin' }}</span>
-          <img 
-            v-if="authStore.user?.photo" 
-            :src="`http://localhost:8000/storage/${authStore.user.photo}`" 
-            class="w-8 h-8 rounded-full object-cover border border-gray-200"
-            alt="Profile Photo"
-          />
-          <div 
-            v-else 
-            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold"
-          >
-            {{ (authStore.user?.name || 'A').charAt(0).toUpperCase() }}
-          </div>
+          <NuxtLink to="/admin/profile" class="cursor-pointer block">
+            <img 
+              v-if="authStore.user?.photo" 
+              :src="`http://localhost:8000/storage/${authStore.user.photo}`" 
+              class="w-8 h-8 rounded-full object-cover border border-gray-200"
+              alt="Profile Photo"
+            />
+            <div 
+              v-else 
+              class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold"
+            >
+              {{ (authStore.user?.name || 'A').charAt(0).toUpperCase() }}
+            </div>
+          </NuxtLink>
         </div>
       </header>
       <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">

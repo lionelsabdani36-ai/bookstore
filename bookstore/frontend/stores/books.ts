@@ -16,7 +16,8 @@ export const useBooksStore = defineStore('books', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await $fetch<any>(`${apiBase}/admin/books`, {
+      const endpoint = authStore.isAdmin ? '/admin/books' : '/books'
+      const response = await $fetch<any>(`${apiBase}${endpoint}`, {
         headers: {
           Authorization: `Bearer ${authStore.token}`,
           Accept: 'application/json'

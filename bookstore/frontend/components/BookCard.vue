@@ -5,7 +5,7 @@
       <h3 class="text-lg font-semibold text-gray-900 truncate">{{ book.title }}</h3>
       <p class="text-sm text-gray-500 mb-2">{{ book.author }}</p>
       <div class="flex justify-between items-center mt-4">
-        <span class="text-primary-600 font-bold">${{ book.price }}</span>
+        <span class="text-primary-600 font-bold">{{ formatCurrency(book.price) }}</span>
         <button @click="$emit('add-to-cart', book)" class="px-3 py-1 bg-primary-100 text-primary-700 rounded-lg hover:bg-primary-200 text-sm font-medium">
           Add to Cart
         </button>
@@ -22,4 +22,12 @@ defineProps({
   }
 });
 defineEmits(['add-to-cart']);
+
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+  }).format(value || 0);
+};
 </script>

@@ -55,6 +55,37 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const register = async (credentials: { name: string; username: string; email: string; password: string; whatsapp_number?: string }) => {
+    loading.value = true
+    error.value = null
+
+    try {
+      const response = await $fetch<any>(`${apiBase}/register`, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: credentials,
+      })
+
+      const newToken = response.data.token
+      const newUser = response.data.user
+
+      token.value = newToken
+      user.value = newUser
+
+      const tCookie = useCookie('auth_token', { path: '/' })
+      const uCookie = useCookie('auth_user', { path: '/' })
+      tCookie.value = newToken
+      uCookie.value = newUser
+
+    } catch (err: any) {
+      const message = err?.data?.message || err?.data?.errors?.email?.[0] || err?.data?.errors?.username?.[0] || 'Registration failed'
+      error.value = message
+      throw new Error(message)
+    } finally {
+      loading.value = false
+    }
+  }
+
   const fetchUser = async () => {
     if (!token.value) return null
     try {
@@ -92,7 +123,7 @@ export const useAuthStore = defineStore('auth', () => {
       // Ignore errors — we still want to clear local state
     } finally {
       clearAuth()
-      navigateTo('/login')
+      navigateTo('/')
     }
   }
 
@@ -114,5 +145,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { user, token, error, loading, isAuthenticated, isAdmin, login, logout, fetchUser, clearAuth }
+  return { user, token, error, loading, isAuthenticated, isAdmin, login, register, logout, fetchUser, clearAuth }
 })

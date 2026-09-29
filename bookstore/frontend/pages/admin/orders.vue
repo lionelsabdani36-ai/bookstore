@@ -33,7 +33,7 @@
               <div class="text-sm text-gray-900">{{ order.user?.name || 'Unknown User' }}</div>
               <div class="text-sm text-gray-500">{{ order.user?.email }}</div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${{ order.total_amount }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ formatCurrency(order.total_amount) }}</td>
             <td class="px-6 py-4 whitespace-nowrap">
               <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
                 :class="{
@@ -79,12 +79,12 @@
             <ul class="space-y-2 mb-4">
               <li v-for="item in activeOrder?.details" :key="item.id" class="flex justify-between text-sm">
                 <span>{{ item.qty }}x {{ item.book?.name || 'Unknown Book' }}</span>
-                <span class="font-medium">${{ item.subtotal }}</span>
+                <span class="font-medium">{{ formatCurrency(item.subtotal) }}</span>
               </li>
             </ul>
             <div class="flex justify-between font-bold text-lg border-t pt-2">
               <span>Total:</span>
-              <span>${{ activeOrder?.total_amount }}</span>
+              <span>{{ formatCurrency(activeOrder?.total_amount) }}</span>
             </div>
           </div>
 
@@ -106,21 +106,21 @@
               <!-- Only show payment fields if we are processing payment -->
               <div v-if="form.status === 'paid'" class="space-y-4 p-4 bg-green-50 border border-green-200 rounded-lg">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Cash Received ($)</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Cash Received (Rp)</label>
                   <input v-model="form.cash_received" type="number" step="0.01" min="0" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
                 </div>
                 
                 <div class="flex justify-between items-center text-sm">
                   <span class="font-medium text-gray-700">Change Amount:</span>
                   <span class="font-bold text-lg" :class="changeAmount >= 0 ? 'text-green-600' : 'text-red-600'">
-                    ${{ changeAmount.toFixed(2) }}
+                    {{ formatCurrency(changeAmount) }}
                   </span>
                 </div>
                 <p v-if="changeAmount < 0" class="text-xs text-red-500 mt-1">Insufficient cash received!</p>
               </div>
               
               <div class="mt-4 p-3 bg-gray-50 rounded text-sm text-gray-600" v-if="activeOrder?.cash_received">
-                <strong>Previously Paid:</strong> Received ${{ activeOrder.cash_received }} / Change ${{ activeOrder.change_amount }}
+                <strong>Previously Paid:</strong> Received {{ formatCurrency(activeOrder.cash_received) }} / Change {{ formatCurrency(activeOrder.change_amount) }}
               </div>
 
               <div class="flex justify-end space-x-3 mt-6">
@@ -149,6 +149,14 @@ definePageMeta({
 })
 
 const ordersStore = useOrdersStore()
+
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+  }).format(value || 0)
+}
 
 const showModal = ref(false)
 const activeOrder = ref(null)

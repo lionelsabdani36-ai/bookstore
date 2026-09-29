@@ -25,8 +25,8 @@
       </div>
       
       <div class="mt-6 flex justify-end">
-        <button class="bg-primary-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-primary-700 shadow-md">
-          Checkout
+        <button @click="handleCheckout" :disabled="ordersStore.loading" class="bg-primary-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-primary-700 shadow-md disabled:opacity-50">
+          {{ ordersStore.loading ? 'Processing...' : 'Checkout' }}
         </button>
       </div>
     </div>
@@ -35,7 +35,21 @@
 
 <script setup>
 import { useCartStore } from '~/stores/cart'
+import { useOrdersStore } from '~/stores/orders'
 
 definePageMeta({ layout: 'user', middleware: ['auth'] })
 const cartStore = useCartStore()
+const ordersStore = useOrdersStore()
+
+const handleCheckout = async () => {
+  if (cartStore.items.length === 0) return
+  try {
+    await ordersStore.createOrder(cartStore.items)
+    cartStore.clearCart()
+    alert('Checkout successful!')
+    navigateTo('/user/transactions')
+  } catch (err) {
+    alert('Checkout failed: ' + ordersStore.error)
+  }
+}
 </script>

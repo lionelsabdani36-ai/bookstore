@@ -39,7 +39,7 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ book.name }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ book.category?.name || '-' }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ book.stock }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${{ book.cost_price }} / ${{ book.sell_price }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatCurrency(book.cost_price) }} / {{ formatCurrency(book.sell_price) }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
               <button @click="openEditModal(book)" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
               <button @click="deleteBook(book.id)" class="text-red-600 hover:text-red-900">Delete</button>
@@ -83,12 +83,12 @@
             </div>
 
             <div class="col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Cost Price ($)</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Cost Price (Rp)</label>
               <input v-model="form.cost_price" type="number" step="0.01" min="0" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div class="col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Sell Price ($)</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Sell Price (Rp)</label>
               <input v-model="form.sell_price" type="number" step="0.01" min="0" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
             </div>
 
@@ -129,6 +129,14 @@ definePageMeta({
 
 const booksStore = useBooksStore()
 const categoryStore = useCategoryStore()
+
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+  }).format(value || 0)
+}
 
 const showModal = ref(false)
 const isEditing = ref(false)

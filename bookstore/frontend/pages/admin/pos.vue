@@ -142,9 +142,10 @@
                 <input 
                   type="number" 
                   id="cashReceived" 
-                  v-model="cashReceived"
+                  v-model.number="cashReceived"
                   class="focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 pr-12 sm:text-lg border-gray-300 rounded-md py-3" 
                   placeholder="0"
+                  min="0"
                 />
               </div>
             </div>
@@ -255,15 +256,21 @@ const totalItemsCount = computed(() => {
   return posStore.scannedItems.reduce((total, item) => total + item.qty, 0)
 })
 
+const getNumericCash = () => {
+  if (cashReceived.value === null || cashReceived.value === undefined || cashReceived.value === '') return 0
+  return Number(cashReceived.value) || 0
+}
+
 const changeAmount = computed(() => {
-  if (!cashReceived.value) return 0
-  return cashReceived.value - posStore.totalAmount
+  const cash = getNumericCash()
+  if (!cash) return 0
+  return cash - Number(posStore.totalAmount || 0)
 })
 
 const canCheckout = computed(() => {
-  return posStore.scannedItems.length > 0 && 
-         cashReceived.value !== null && 
-         cashReceived.value >= posStore.totalAmount
+  const cash = getNumericCash()
+  const total = Number(posStore.totalAmount || 0)
+  return posStore.scannedItems.length > 0 && cash > 0 && cash >= (total - 0.1)
 })
 
 const handleScan = async () => {

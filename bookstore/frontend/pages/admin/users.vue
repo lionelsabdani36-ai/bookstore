@@ -109,7 +109,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
               <select v-model="form.role" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
                 <option value="customer">Customer</option>
-                <option value="admin">Admin</option>
+                <option value="admin" :disabled="adminCount >= 3 && (!isEditing || originalRole !== 'admin')">Admin (Max 3)</option>
               </select>
             </div>
 
@@ -163,6 +163,11 @@ const filteredUsers = computed(() => {
   return usersStore.users.filter(u => u.role === activeTab.value)
 })
 
+const adminCount = computed(() => {
+  return usersStore.users.filter(u => u.role === 'admin').length
+})
+const originalRole = ref('customer')
+
 const form = reactive({
   name: '',
   username: '',
@@ -183,6 +188,7 @@ const resetForm = () => {
   form.email = ''
   form.phone = ''
   form.role = 'customer'
+  originalRole.value = 'customer'
   form.password = ''
   selectedFile = null
   isEditing.value = false
@@ -204,6 +210,7 @@ const openEditModal = (user) => {
   form.email = user.email
   form.phone = user.phone
   form.role = user.role
+  originalRole.value = user.role
   form.password = '' // Explicitly leave empty
   
   showModal.value = true

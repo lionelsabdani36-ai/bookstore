@@ -13,6 +13,7 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { useBooksStore } from '~/stores/books'
 import { useCartStore } from '~/stores/cart'
 
@@ -20,4 +21,8 @@ definePageMeta({ layout: 'user', middleware: ['auth'] })
 
 const booksStore = useBooksStore()
 const cartStore = useCartStore()
+
+onMounted(() => {
+  booksStore.fetchBooks()
+})
 </script>

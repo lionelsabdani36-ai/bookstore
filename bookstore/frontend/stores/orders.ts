@@ -60,5 +60,48 @@ export const useOrdersStore = defineStore('orders', () => {
     }
   }
 
-  return { orders, loading, error, fetchOrders, updateOrder }
+  const fetchUserOrders = async () => {
+    loading.value = true
+    error.value = null
+    try {
+      const response = await $fetch<any>(`${apiBase}/orders`, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`,
+          Accept: 'application/json'
+        }
+      })
+      orders.value = response.data
+    } catch (err: any) {
+      error.value = err?.data?.message || 'Failed to fetch user orders'
+      console.error(err)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const createOrder = async (items: any[]) => {
+    loading.value = true
+    error.value = null
+    try {
+      const response = await $fetch<any>(`${apiBase}/orders`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authStore.token}`,
+          Accept: 'application/json'
+        },
+        body: {
+          items: items.map(item => ({ book_id: item.id, quantity: item.quantity }))
+        }
+      })
+      return response.data
+    } catch (err: any) {
+      error.value = err?.data?.message || 'Failed to create order'
+      console.error(err)
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { orders, loading, error, fetchOrders, fetchUserOrders, updateOrder, createOrder }
 })

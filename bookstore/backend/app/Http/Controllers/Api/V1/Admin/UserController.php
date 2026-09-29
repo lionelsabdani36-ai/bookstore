@@ -17,6 +17,14 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image',
         ]);
+        if ($validated['role'] === 'admin') {
+            if (User::where('role', 'admin')->count() >= 3) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'role' => ['Cannot create more than 3 admin accounts.']
+                ]);
+            }
+        }
+
         if ($request->hasFile('photo')) {
             $validated['photo'] = $request->file('photo')->store('users', 'public');
         }
@@ -33,6 +41,14 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8',
             'photo' => 'nullable|image',
         ]);
+        if ($validated['role'] === 'admin' && $user->role !== 'admin') {
+            if (User::where('role', 'admin')->count() >= 3) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'role' => ['Cannot create more than 3 admin accounts.']
+                ]);
+            }
+        }
+
         if ($request->hasFile('photo')) {
             $validated['photo'] = $request->file('photo')->store('users', 'public');
         }
